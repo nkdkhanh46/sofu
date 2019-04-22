@@ -1,6 +1,6 @@
 package com.martin.sofu.networking
 
-import com.khanh.martinsamples.networking.models.UsersResponse
+import com.martin.sofu.networking.models.UsersResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

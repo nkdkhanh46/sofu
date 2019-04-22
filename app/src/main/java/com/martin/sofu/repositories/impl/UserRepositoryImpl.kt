@@ -7,6 +7,6 @@ import javax.inject.Singleton
 @Singleton
 class UserRepositoryImpl @Inject constructor() : UserRepository {
     override fun getUsers(): List<String> {
-        return ArrayList()
+        return ArrayList<String>()
     }
 }

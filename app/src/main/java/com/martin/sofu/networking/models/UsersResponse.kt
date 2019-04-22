@@ -1,4 +1,4 @@
-package com.khanh.martinsamples.networking.models
+package com.martin.sofu.networking.models
 
 class UsersResponse {
 }
