@@ -18,6 +18,7 @@ class MainActivity : BaseActivity() {
     private lateinit var binding: ActivityMainBinding
     @Inject lateinit var viewModel: MainViewModel
     private var adapter: UserAdapter? = null
+    private var scrollListener: EndlessScrollListener? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,17 +49,39 @@ class MainActivity : BaseActivity() {
         val layoutManager = LinearLayoutManager(this)
         rvUsers.layoutManager = layoutManager
         rvUsers.adapter = adapter
-        rvUsers.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
+
+        setupInfinityScrolling(layoutManager)
+        setupSwipeToRefreshView()
+    }
+
+    private fun setupInfinityScrolling(layoutManager: LinearLayoutManager) {
+        scrollListener = object : EndlessScrollListener(layoutManager) {
             override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
                 viewModel.loadUsers(true)
             }
-        })
+        }
+
+        rvUsers.addOnScrollListener(scrollListener!!)
+    }
+
+    private fun setupSwipeToRefreshView() {
+        vRefresh.setOnRefreshListener {
+            viewModel.loadUsers()
+        }
     }
 
     private fun observeChanges() {
         viewModel.users.observe(this, Observer {
             it?.let { users ->
                 adapter?.swapData(users, viewModel.bookmarkedIds)
+                if (viewModel.currentPage == 1) scrollListener?.resetState()
+            }
+        })
+
+        viewModel.refreshCompleted.observe(this, Observer { success ->
+            success?.let {
+                vRefresh.isRefreshing = false
+                viewModel.refreshCompleted.value = null
             }
         })
     }

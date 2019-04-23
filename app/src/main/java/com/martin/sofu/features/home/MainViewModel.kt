@@ -10,9 +10,13 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor(private val userRepository: UserRepository,
                                         private val sharedPreferences: AppSharedPreferences): ViewModel() {
-    var bookmarkedIds: ArrayList<Long> = sharedPreferences.getBookmarkIds()
+
     val users: MutableLiveData<ArrayList<User>> = userRepository.users
-    private var currentPage = 1
+    var refreshCompleted = MutableLiveData<Boolean>()
+
+    var bookmarkedIds: ArrayList<Long> = sharedPreferences.getBookmarkIds()
+
+    var currentPage = 1
 
     fun loadUsers(loadMore: Boolean = false) {
         if (loadMore) {
@@ -21,8 +25,12 @@ class MainViewModel @Inject constructor(private val userRepository: UserReposito
             currentPage = 1
         }
         userRepository.getUsers(currentPage, object : RepositoryCallback<ArrayList<User>> {
-            override fun onSuccess(result: ArrayList<User>?) { }
-            override fun onFailed(error: String?) {}
+            override fun onSuccess(result: ArrayList<User>?) {
+                refreshCompleted.value = true
+            }
+            override fun onFailed(error: String?) {
+                refreshCompleted.value = true
+            }
         })
     }
 
