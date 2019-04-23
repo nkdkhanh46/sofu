@@ -1,4 +1,5 @@
 package com.martin.sofu.networking.models
 
-class UsersResponse {
-}
+import com.martin.sofu.model.User
+
+class UsersResponse(val items: ArrayList<User>)

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Sofu</string>
+    <string name="add_remove_bookmark">Add/Remove bookmarks</string>
+    <string name="reputation">reputations</string>
+    <string name="unknown_location">Unknown</string>
+    <string name="last_access">Last access at</string>
 </resources>

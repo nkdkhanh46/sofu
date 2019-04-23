@@ -10,7 +10,7 @@ import retrofit2.http.Query
  */
 interface APIRequest {
 
-    @GET("users?page=1&pagesize=30&site=stackoverflow")
+    @GET("users")
     fun getUsers(@Query("page") page: Int,
                  @Query("pagesize") pageSize: Int = 30,
                  @Query("site") site: String = "stackoverflow"): Call<UsersResponse>
