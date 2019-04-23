@@ -4,8 +4,15 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.martin.sofu.storage.AppSharedPreferences
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class SharedPreferencesImpl (private val context: Context): AppSharedPreferences {
+@Singleton
+class SharedPreferencesImpl @Inject constructor(private val context: Context): AppSharedPreferences {
+
+    companion object {
+        const val KEY_BOOKMARK_IDS = "BookmarkIds"
+    }
 
     private fun getSharedPreferences(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
@@ -45,5 +52,19 @@ class SharedPreferencesImpl (private val context: Context): AppSharedPreferences
 
     private fun getInt(key: String): Int {
         return getSharedPreferences().getInt(key, 0)
+    }
+
+    override fun getBookmarkIds(): ArrayList<Long> {
+        val result = getString(KEY_BOOKMARK_IDS)
+        if (result.isEmpty()) return ArrayList()
+
+        val ids = ArrayList<Long>()
+        ids.addAll(result.split(";").map { text -> text.toLong() })
+        return ids
+    }
+
+    override fun setBookmarkIds(bookmarkedIds: ArrayList<Long>) {
+        val result = bookmarkedIds.joinToString(";")
+        setString(KEY_BOOKMARK_IDS, result)
     }
 }

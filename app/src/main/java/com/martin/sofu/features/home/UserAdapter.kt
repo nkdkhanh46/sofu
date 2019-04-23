@@ -2,6 +2,7 @@ package com.martin.sofu.features.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,8 +13,13 @@ import com.martin.sofu.utils.DateTimeUtils
 
 class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
+    interface Listener {
+        fun onBookmarksListChanged(bookmarkedIds: ArrayList<Long>)
+    }
+
     private val users = ArrayList<User>()
-    private var bookmarkedIds: Array<String> = arrayOf()
+    private var bookmarkedIds: ArrayList<Long> = ArrayList()
+    var listener: Listener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val binding: ItemUserBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_user, parent, false)
@@ -28,7 +34,7 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
         holder.bind(users[position])
     }
 
-    fun swapData(users: ArrayList<User>, bookmarkedIds: Array<String>) {
+    fun swapData(users: ArrayList<User>, bookmarkedIds: ArrayList<Long>) {
         this.users.clear()
         this.users.addAll(users)
         this.bookmarkedIds = bookmarkedIds
@@ -49,6 +55,26 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
             binding.tvLocation.text = location
 
             Glide.with(itemView.context).load(user.profileImage).into(binding.ivAvatar)
+
+            val color = if (bookmarkedIds.contains(user.userId)) R.color.colorPrimary else R.color.greyDark
+            binding.ivBookmark.setColorFilter(ContextCompat.getColor(itemView.context, color))
+            val icon = if (bookmarkedIds.contains(user.userId)) R.drawable.ic_bookmarked else R.drawable.ic_bookmark
+            binding.ivBookmark.setImageResource(icon)
+
+            binding.ivBookmark.setOnClickListener {
+                onBookmarkClicked(user.userId, adapterPosition)
+            }
+        }
+
+        private fun onBookmarkClicked(userId: Long, position: Int) {
+            if (bookmarkedIds.contains(userId)) {
+                bookmarkedIds.remove(userId)
+            } else {
+                bookmarkedIds.add(userId)
+            }
+
+            listener?.onBookmarksListChanged(bookmarkedIds)
+            notifyItemChanged(position)
         }
     }
 }

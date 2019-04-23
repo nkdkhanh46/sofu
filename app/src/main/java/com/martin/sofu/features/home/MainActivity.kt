@@ -38,13 +38,18 @@ class MainActivity : BaseActivity() {
 
     private fun setupUsersList() {
         adapter = UserAdapter()
+        adapter?.listener = object : UserAdapter.Listener {
+            override fun onBookmarksListChanged(bookmarkedIds: ArrayList<Long>) {
+                viewModel.updateBookmarksList(bookmarkedIds)
+            }
+        }
         rvUsers.adapter = adapter
     }
 
     private fun observeChanges() {
         viewModel.users.observe(this, Observer {
             it?.let { users ->
-                adapter?.swapData(users, arrayOf())
+                adapter?.swapData(users, viewModel.bookmarkedIds)
             }
         })
     }

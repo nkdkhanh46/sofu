@@ -11,4 +11,5 @@
     <dimen name="text_size_primary">16sp</dimen>
     <dimen name="text_size_secondary">14sp</dimen>
     <dimen name="text_size_tertiary">12sp</dimen>
+    <dimen name="size_user_location_icon">16dp</dimen>
 </resources>

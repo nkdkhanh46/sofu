@@ -46,10 +46,12 @@
 
         <ImageView
                 android:id="@+id/ivLocation"
+                android:layout_width="@dimen/size_user_location_icon"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/tvName"
                 app:layout_constraintTop_toTopOf="@id/tvLocation"
                 app:layout_constraintBottom_toBottomOf="@id/tvLocation"
-                style="@style/BadgeIcon"
+                android:adjustViewBounds="true"
                 android:src="@drawable/ic_location"
                 android:tint="@color/colorPrimary"
                 tools:ignore="ContentDescription"/>
@@ -71,11 +73,14 @@
 
         <ImageView
                 android:id="@+id/ivReputation"
+                android:layout_width="@dimen/size_user_location_icon"
+                android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/tvName"
                 app:layout_constraintTop_toTopOf="@id/tvReputation"
                 app:layout_constraintBottom_toBottomOf="@id/tvReputation"
-                style="@style/BadgeIcon"
-                android:tint="@color/gold"
+                android:adjustViewBounds="true"
+                android:tint="@color/yellow"
+                android:src="@drawable/ic_badge"
                 tools:ignore="ContentDescription"/>
 
         <TextView
@@ -102,7 +107,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:adjustViewBounds="true"
                 android:background="?attr/selectableItemBackground"
-                android:tint="@color/colorPrimary"
+                android:tint="@color/greyDark"
                 android:src="@drawable/ic_bookmark"
                 android:contentDescription="@string/add_remove_bookmark"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
