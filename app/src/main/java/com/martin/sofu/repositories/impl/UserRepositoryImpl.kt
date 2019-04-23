@@ -17,8 +17,8 @@ class UserRepositoryImpl @Inject constructor(private val retrofitClient: Retrofi
 
     override val users: MutableLiveData<ArrayList<User>> = MutableLiveData()
 
-    override fun getUsers(callback: RepositoryCallback<ArrayList<User>>) {
-        val call = retrofitClient.getService().getUsers(1)
+    override fun getUsers(page: Int, callback: RepositoryCallback<ArrayList<User>>) {
+        val call = retrofitClient.getService().getUsers(page)
         call.enqueue(object : Callback<UsersResponse> {
             override fun onFailure(call: Call<UsersResponse>, t: Throwable) {
                 callback.onFailed()
@@ -26,8 +26,14 @@ class UserRepositoryImpl @Inject constructor(private val retrofitClient: Retrofi
 
             override fun onResponse(call: Call<UsersResponse>, response: Response<UsersResponse>) {
                 if (response.isSuccessful && response.body() != null) {
-                    callback.onSuccess(response.body()!!.items)
-                    users.value = response.body()!!.items
+                    if (page == 1) {
+                        users.value = response.body()!!.items
+                    } else {
+                        val currentUsers = users.value
+                        currentUsers?.addAll(response.body()!!.items)
+                        users.value = currentUsers
+                    }
+                    callback.onSuccess(users.value)
                     return
                 }
 

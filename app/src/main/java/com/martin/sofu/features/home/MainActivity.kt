@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.martin.sofu.R
 import com.martin.sofu.application.MainApplication
 import com.martin.sofu.base.BaseActivity
@@ -43,7 +45,14 @@ class MainActivity : BaseActivity() {
                 viewModel.updateBookmarksList(bookmarkedIds)
             }
         }
+        val layoutManager = LinearLayoutManager(this)
+        rvUsers.layoutManager = layoutManager
         rvUsers.adapter = adapter
+        rvUsers.addOnScrollListener(object : EndlessScrollListener(layoutManager) {
+            override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView?) {
+                viewModel.loadUsers(true)
+            }
+        })
     }
 
     private fun observeChanges() {
@@ -56,6 +65,6 @@ class MainActivity : BaseActivity() {
 
     override fun onStart() {
         super.onStart()
-        viewModel.loadData()
+        viewModel.loadUsers()
     }
 }
