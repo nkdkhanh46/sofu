@@ -17,19 +17,23 @@ class MainViewModel @Inject constructor(private val userRepository: UserReposito
     var bookmarkedIds: ArrayList<Long> = sharedPreferences.getBookmarkIds()
 
     var currentPage = 1
+    var hasMore = true
 
     fun loadUsers(loadMore: Boolean = false) {
         if (loadMore) {
             currentPage += 1
         } else {
             currentPage = 1
+            hasMore = true
         }
-        userRepository.getUsers(currentPage, object : RepositoryCallback<ArrayList<User>> {
-            override fun onSuccess(result: ArrayList<User>?) {
+        userRepository.getUsers(currentPage, object : RepositoryCallback<Boolean> {
+            override fun onSuccess(result: Boolean?) {
                 refreshCompleted.value = true
+                hasMore = result?: true
             }
             override fun onFailed(error: String?) {
                 refreshCompleted.value = true
+                hasMore = true
             }
         })
     }

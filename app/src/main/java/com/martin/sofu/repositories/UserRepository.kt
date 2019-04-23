@@ -7,5 +7,5 @@ interface UserRepository {
 
     val users: MutableLiveData<ArrayList<User>>
 
-    fun getUsers(page: Int, callback: RepositoryCallback<ArrayList<User>>)
+    fun getUsers(page: Int, callback: RepositoryCallback<Boolean>)
 }

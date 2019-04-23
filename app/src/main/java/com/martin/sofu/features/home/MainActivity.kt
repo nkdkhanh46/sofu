@@ -36,6 +36,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initView() {
+        vRefresh.isRefreshing = true
         setupUsersList()
     }
 
@@ -73,7 +74,7 @@ class MainActivity : BaseActivity() {
     private fun observeChanges() {
         viewModel.users.observe(this, Observer {
             it?.let { users ->
-                adapter?.swapData(users, viewModel.bookmarkedIds)
+                adapter?.swapData(users, viewModel.bookmarkedIds, viewModel.hasMore)
                 if (viewModel.currentPage == 1) scrollListener?.resetState()
             }
         })

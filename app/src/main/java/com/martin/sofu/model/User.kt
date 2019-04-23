@@ -23,4 +23,6 @@ class User {
 
     @SerializedName("location")
     val location: String? = ""
+
+    var isFooter: Boolean = false
 }

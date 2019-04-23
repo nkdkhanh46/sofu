@@ -8,7 +8,10 @@
     <color name="textSecondary">#585858</color>
     <color name="textTertiary">#a4a4a4</color>
 
+    <color name="backgroundLight">#fbfbfb</color>
+
     <color name="greyDark">#585858</color>
     <color name="yellow">#FFDF00</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>

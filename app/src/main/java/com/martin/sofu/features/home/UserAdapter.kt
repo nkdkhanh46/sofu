@@ -1,6 +1,7 @@
 package com.martin.sofu.features.home
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -34,15 +35,31 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
         holder.bind(users[position])
     }
 
-    fun swapData(users: ArrayList<User>, bookmarkedIds: ArrayList<Long>) {
+    fun swapData(users: ArrayList<User>, bookmarkedIds: ArrayList<Long>, hasMore: Boolean) {
         this.users.clear()
         this.users.addAll(users)
+        if (hasMore) addLoadingFooter()
+
         this.bookmarkedIds = bookmarkedIds
+
         notifyDataSetChanged()
+    }
+
+    private fun addLoadingFooter() {
+        val footer = User()
+        footer.isFooter = true
+        this.users.add(footer)
     }
 
     inner class UserViewHolder(private val binding: ItemUserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
+            if (user.isFooter) {
+                binding.vLoading.visibility = View.VISIBLE
+                return
+            }
+
+            binding.vLoading.visibility = View.GONE
+
             binding.tvName.text = user.name
 
             val date = "${itemView.context.getString(R.string.last_access)} ${DateTimeUtils.timestampToDisplayDate(user.lastAccessDate)}"
