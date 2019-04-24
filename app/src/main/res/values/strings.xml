@@ -1,10 +1,14 @@
 <resources>
     <string name="app_name">Sofu</string>
     <string name="add_remove_bookmark">Add/Remove bookmarks</string>
-    <string name="reputation">reputations</string>
+    <string name="reputation">reputation</string>
     <string name="unknown_location">Unknown</string>
     <string name="last_access">Last access at</string>
     <string name="show_all">Show all</string>
     <string name="show_my_bookmarks">Show my bookmarks</string>
     <string name="filter">Filter</string>
+    <string name="reputation_increased_by">Reputation increased by %1$d</string>
+    <string name="reputation_decreased_by">Reputation decreased by %1$d</string>
+    <string name="stack_over_flow_users">Stack Over Flow users</string>
+    <string name="user_reputation_history">User reputation history</string>
 </resources>

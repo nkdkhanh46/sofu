@@ -1,4 +1,4 @@
-package com.martin.sofu.features.home
+package com.martin.sofu.customviews
 
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager

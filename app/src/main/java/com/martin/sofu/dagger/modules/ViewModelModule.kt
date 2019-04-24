@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.martin.sofu.dagger.ViewModelFactory
 import com.martin.sofu.dagger.ViewModelKey
 import com.martin.sofu.features.home.MainViewModel
+import com.martin.sofu.features.reputationhistory.ReputationViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
@@ -18,4 +19,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(MainViewModel::class)
     abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ReputationViewModel::class)
+    abstract fun bindReputationViewModel(viewModel: ReputationViewModel): ViewModel
 }

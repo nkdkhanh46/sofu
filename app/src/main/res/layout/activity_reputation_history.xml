@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable name="viewModel"
+                  type="com.martin.sofu.features.reputationhistory.ReputationViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backgroundLight">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/vInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="12dp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:background="@color/white">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:src="@mipmap/ic_launcher"/>
+
+            <TextView
+                    android:id="@+id/tvName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_normal"
+                    app:layout_constraintStart_toEndOf="@id/ivAvatar"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/tvLocation"
+                    android:textSize="@dimen/text_size_primary"
+                    android:textColor="@color/textPrimary"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@{viewModel.userName}"
+                    tools:text="Name"/>
+
+            <ImageView
+                    android:id="@+id/ivLocation"
+                    android:layout_width="@dimen/size_user_location_icon"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/tvName"
+                    app:layout_constraintTop_toTopOf="@id/tvLocation"
+                    app:layout_constraintBottom_toBottomOf="@id/tvLocation"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_location"
+                    android:tint="@color/colorPrimary"
+                    tools:ignore="ContentDescription"/>
+
+            <TextView
+                    android:id="@+id/tvLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_extreme_small"
+                    android:layout_marginTop="@dimen/spacing_small"
+                    app:layout_constraintStart_toEndOf="@id/ivLocation"
+                    app:layout_constraintTop_toBottomOf="@id/tvName"
+                    app:layout_constraintEnd_toEndOf="@id/tvName"
+                    android:textSize="@dimen/text_size_secondary"
+                    android:textColor="@color/textSecondary"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="@{viewModel.location}"
+                    tools:text="10 Cong Hoa"/>
+
+            <ImageView
+                    android:id="@+id/ivReputation"
+                    android:layout_width="@dimen/size_user_location_icon"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/tvName"
+                    app:layout_constraintTop_toTopOf="@id/tvReputation"
+                    app:layout_constraintBottom_toBottomOf="@id/tvReputation"
+                    android:adjustViewBounds="true"
+                    android:tint="@color/yellow"
+                    android:src="@drawable/ic_badge"
+                    tools:ignore="ContentDescription"/>
+
+            <TextView
+                    android:id="@+id/tvReputation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_extreme_small"
+                    android:layout_marginTop="@dimen/spacing_very_small"
+                    app:layout_constraintStart_toEndOf="@id/ivReputation"
+                    app:layout_constraintTop_toBottomOf="@id/tvLocation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textSize="@dimen/text_size_secondary"
+                    android:textColor="@color/textSecondary"
+                    android:text="@{viewModel.totalReputation}"
+                    tools:text="100000 reputations"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/vRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/vInfo"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvReputations"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

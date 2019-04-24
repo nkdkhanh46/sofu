@@ -9,9 +9,9 @@ class DateTimeUtils {
             if (timestamp <=0) return ""
 
             val cal = Calendar.getInstance()
-            cal.time.time = timestamp
+            cal.timeInMillis = timestamp*1000
 
-            val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+            val sdf = SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault())
             return sdf.format(cal.time)
         }
     }

@@ -19,6 +19,7 @@ import com.martin.sofu.utils.DateTimeUtils
 class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     interface Listener {
+        fun onUserSelected(user: User)
         fun onBookmarksChanged(bookmarks: LongSparseArray<User>)
     }
 
@@ -115,6 +116,8 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
             binding.ivBookmark.setOnClickListener {
                 onBookmarkClicked(user, adapterPosition)
             }
+
+            binding.root.setOnClickListener { listener?.onUserSelected(user) }
         }
 
         private fun onBookmarkClicked(user: User, position: Int) {

@@ -57,4 +57,8 @@ class MainViewModel @Inject constructor(private val userRepository: UserReposito
     fun saveBookmarks() {
         sharedPreferences.setBookmarks(bookmarks)
     }
+
+    fun setCurrentUser(user: User) {
+        userRepository.updateCurrentUser(user)
+    }
 }
