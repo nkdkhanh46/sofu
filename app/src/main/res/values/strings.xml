@@ -4,4 +4,7 @@
     <string name="reputation">reputations</string>
     <string name="unknown_location">Unknown</string>
     <string name="last_access">Last access at</string>
+    <string name="show_all">Show all</string>
+    <string name="show_my_bookmarks">Show my bookmarks</string>
+    <string name="filter">Filter</string>
 </resources>

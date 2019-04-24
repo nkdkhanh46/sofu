@@ -1,5 +1,7 @@
 package com.martin.sofu.features.home
 
+import android.util.LongSparseArray
+import androidx.core.util.putAll
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.martin.sofu.model.User
@@ -14,10 +16,15 @@ class MainViewModel @Inject constructor(private val userRepository: UserReposito
     val users: MutableLiveData<ArrayList<User>> = userRepository.users
     var refreshCompleted = MutableLiveData<Boolean>()
 
-    var bookmarkedIds: ArrayList<Long> = sharedPreferences.getBookmarkIds()
+    var bookmarks: LongSparseArray<User> = sharedPreferences.getBookmarks()
 
     var currentPage = 1
     var hasMore = true
+    var showingAll = true
+
+    init {
+        loadUsers()
+    }
 
     fun loadUsers(loadMore: Boolean = false) {
         if (loadMore) {
@@ -38,8 +45,16 @@ class MainViewModel @Inject constructor(private val userRepository: UserReposito
         })
     }
 
-    fun updateBookmarksList(bookmarkedIds: ArrayList<Long>) {
-        this.bookmarkedIds = bookmarkedIds
-        sharedPreferences.setBookmarkIds(bookmarkedIds)
+    fun updateBookmarksList(bookmarks: LongSparseArray<User>) {
+        this.bookmarks.clear()
+        this.bookmarks.putAll(bookmarks)
+    }
+
+    fun updateFilterOption(showAll: Boolean) {
+        this.showingAll = showAll
+    }
+
+    fun saveBookmarks() {
+        sharedPreferences.setBookmarks(bookmarks)
     }
 }

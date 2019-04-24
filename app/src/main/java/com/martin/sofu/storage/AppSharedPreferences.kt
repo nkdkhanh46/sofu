@@ -1,6 +1,9 @@
 package com.martin.sofu.storage
 
+import android.util.LongSparseArray
+import com.martin.sofu.model.User
+
 interface AppSharedPreferences {
-    fun getBookmarkIds(): ArrayList<Long>
-    fun setBookmarkIds(bookmarkedIds: ArrayList<Long>)
+    fun getBookmarks(): LongSparseArray<User>
+    fun setBookmarks(bookmarks: LongSparseArray<User>)
 }

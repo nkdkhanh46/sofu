@@ -1,6 +1,9 @@
 package com.martin.sofu.features.home
 
 import android.os.Bundle
+import android.util.LongSparseArray
+import android.view.Menu
+import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +13,7 @@ import com.martin.sofu.R
 import com.martin.sofu.application.MainApplication
 import com.martin.sofu.base.BaseActivity
 import com.martin.sofu.databinding.ActivityMainBinding
+import com.martin.sofu.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -43,8 +47,8 @@ class MainActivity : BaseActivity() {
     private fun setupUsersList() {
         adapter = UserAdapter()
         adapter?.listener = object : UserAdapter.Listener {
-            override fun onBookmarksListChanged(bookmarkedIds: ArrayList<Long>) {
-                viewModel.updateBookmarksList(bookmarkedIds)
+            override fun onBookmarksChanged(bookmarks: LongSparseArray<User>) {
+                viewModel.updateBookmarksList(bookmarks)
             }
         }
         val layoutManager = LinearLayoutManager(this)
@@ -74,7 +78,7 @@ class MainActivity : BaseActivity() {
     private fun observeChanges() {
         viewModel.users.observe(this, Observer {
             it?.let { users ->
-                adapter?.swapData(users, viewModel.bookmarkedIds, viewModel.hasMore)
+                adapter?.swapData(users, viewModel.bookmarks, viewModel.hasMore, viewModel.showingAll)
                 if (viewModel.currentPage == 1) scrollListener?.resetState()
             }
         })
@@ -87,8 +91,33 @@ class MainActivity : BaseActivity() {
         })
     }
 
-    override fun onStart() {
-        super.onStart()
-        viewModel.loadUsers()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_home, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item == null) return super.onOptionsItemSelected(item)
+
+        when (item.itemId) {
+            R.id.action_filter -> showFilterDialog()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showFilterDialog() {
+        val dialog = UserFilterDialog.newInstance(viewModel.showingAll)
+        dialog.listener = object : UserFilterDialog.Listener {
+            override fun onFilterSelected(showAll: Boolean) {
+                viewModel.updateFilterOption(showAll)
+                adapter?.setFilter(showAll)
+            }
+        }
+        dialog.show(supportFragmentManager, UserFilterDialog.TAG)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        viewModel.saveBookmarks()
     }
 }
