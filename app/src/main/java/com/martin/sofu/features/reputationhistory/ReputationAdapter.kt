@@ -1,5 +1,6 @@
 package com.martin.sofu.features.reputationhistory
 
+import android.graphics.PorterDuff
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -62,8 +63,8 @@ class ReputationAdapter: RecyclerView.Adapter<ReputationAdapter.ReputationViewHo
             val change = String.format(Locale.getDefault(), itemView.context.getString(reputation.type.displayValue), reputation.reputationChange)
             binding.tvChange.text = change
 
-            val icon = if (ReputationType.UP_VOTE == reputation.type) R.drawable.ic_up else R.drawable.ic_down
-            binding.ivType.setImageResource(icon)
+            binding.ivType.setImageResource(reputation.type.icon)
+            binding.ivType.setColorFilter(ContextCompat.getColor(itemView.context, reputation.type.color), PorterDuff.Mode.MULTIPLY)
         }
     }
 }
