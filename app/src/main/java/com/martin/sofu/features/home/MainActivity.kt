@@ -7,11 +7,9 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.martin.sofu.R
-import com.martin.sofu.application.MainApplication
 import com.martin.sofu.base.BaseActivity
 import com.martin.sofu.customviews.EndlessScrollListener
 import com.martin.sofu.databinding.ActivityMainBinding
@@ -19,12 +17,12 @@ import com.martin.sofu.features.reputationhistory.ReputationActivity
 import com.martin.sofu.model.User
 import com.martin.sofu.utils.Constants
 import kotlinx.android.synthetic.main.activity_main.*
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    @Inject lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModel()
     private var adapter: UserAdapter? = null
     private var scrollListener: EndlessScrollListener? = null
 
@@ -36,9 +34,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initBinding() {
-        (application as MainApplication?)?.appComponent?.inject(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        viewModel = ViewModelProvider(this, viewModelFactory)[MainViewModel::class.java]
         binding.viewModel = viewModel
         binding.executePendingBindings()
     }

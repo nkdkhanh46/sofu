@@ -1,21 +1,28 @@
 package com.martin.sofu.application
 
 import android.app.Application
-import com.martin.sofu.dagger.AppComponent
-import com.martin.sofu.dagger.DaggerAppComponent
-import com.martin.sofu.dagger.modules.AppModule
+import com.martin.sofu.injection.networkModule
+import com.martin.sofu.injection.repositoryModule
+import com.martin.sofu.injection.storageModule
+import com.martin.sofu.injection.viewModelModule
+import org.koin.android.ext.android.startKoin
 
 class MainApplication: Application() {
 
-    lateinit var appComponent: AppComponent
-
     override fun onCreate() {
         super.onCreate()
-        initDagger()
+        initKoin()
     }
 
-    @Suppress("DEPRECATION")
-    private fun initDagger() {
-        appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()
+    private fun initKoin() {
+        startKoin(
+            this,
+            listOf(
+                viewModelModule,
+                storageModule,
+                repositoryModule,
+                networkModule
+            )
+        )
     }
 }

@@ -9,9 +9,11 @@ import com.martin.sofu.model.Reputation
 import com.martin.sofu.model.User
 import com.martin.sofu.repositories.RepositoryCallback
 import com.martin.sofu.repositories.UserRepository
-import javax.inject.Inject
 
-class ReputationViewModel @Inject constructor(private val context: Context, private val userRepository: UserRepository): ViewModel() {
+class ReputationViewModel constructor(
+    private val context: Context,
+    private val userRepository: UserRepository
+): ViewModel() {
 
     val reputations: MutableLiveData<ArrayList<Reputation>> = userRepository.reputations
     var refreshCompleted = MutableLiveData<Boolean>()

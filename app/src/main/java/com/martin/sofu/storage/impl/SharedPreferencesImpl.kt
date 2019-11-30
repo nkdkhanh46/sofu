@@ -1,27 +1,23 @@
 package com.martin.sofu.storage.impl
 
-import android.content.Context
 import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import android.util.LongSparseArray
 import androidx.core.util.valueIterator
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.martin.sofu.model.User
 import com.martin.sofu.storage.AppSharedPreferences
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class SharedPreferencesImpl @Inject constructor(private val context: Context): AppSharedPreferences {
+@Suppress("SameParameterValue")
+class SharedPreferencesImpl constructor(
+    private val sharedPreferences: SharedPreferences
+): AppSharedPreferences {
 
     companion object {
         const val KEY_BOOKMARKS = "Bookmarks"
     }
 
-    private fun getSharedPreferences(): SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
-
-    private fun getEditor(): SharedPreferences.Editor = getSharedPreferences().edit()
+    private fun getEditor(): SharedPreferences.Editor = sharedPreferences.edit()
 
     private fun setString(key: String, value: String?) {
         val editor = getEditor()
@@ -30,7 +26,7 @@ class SharedPreferencesImpl @Inject constructor(private val context: Context): A
     }
 
     private fun getString(key: String): String {
-        return getSharedPreferences().getString(key, "")?:""
+        return sharedPreferences.getString(key, "")?:""
     }
 
     override fun getBookmarks(): LongSparseArray<User> {

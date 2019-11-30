@@ -3,23 +3,21 @@ package com.martin.sofu.features.reputationhistory
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.martin.sofu.R
-import com.martin.sofu.application.MainApplication
 import com.martin.sofu.base.BaseActivity
 import com.martin.sofu.customviews.EndlessScrollListener
 import com.martin.sofu.databinding.ActivityReputationHistoryBinding
 import com.martin.sofu.utils.Constants
 import kotlinx.android.synthetic.main.activity_reputation_history.*
-import javax.inject.Inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReputationActivity : BaseActivity() {
 
     private lateinit var binding: ActivityReputationHistoryBinding
-    @Inject lateinit var viewModel: ReputationViewModel
+    private val viewModel: ReputationViewModel by viewModel()
     private var adapter: ReputationAdapter? = null
     private var scrollListener: EndlessScrollListener? = null
 
@@ -31,9 +29,7 @@ class ReputationActivity : BaseActivity() {
     }
 
     private fun initBinding() {
-        (application as MainApplication?)?.appComponent?.inject(this)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_reputation_history)
-        viewModel = ViewModelProvider(this, viewModelFactory)[ReputationViewModel::class.java]
         binding.viewModel = viewModel
         viewModel.userId = intent.getLongExtra(Constants.INTEN_NAME_USER_ID, 0L)
         binding.executePendingBindings()
