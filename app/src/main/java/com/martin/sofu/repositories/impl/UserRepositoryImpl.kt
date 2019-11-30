@@ -11,11 +11,8 @@ import com.martin.sofu.repositories.UserRepository
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class UserRepositoryImpl @Inject constructor(private val retrofitClient: RetrofitClient) : UserRepository {
+class UserRepositoryImpl constructor(private val retrofitClient: RetrofitClient) : UserRepository {
 
     override var currentUser: User? = null
     override val users: MutableLiveData<ArrayList<User>> = MutableLiveData()

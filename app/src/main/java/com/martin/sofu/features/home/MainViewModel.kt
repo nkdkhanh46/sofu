@@ -8,10 +8,11 @@ import com.martin.sofu.model.User
 import com.martin.sofu.repositories.RepositoryCallback
 import com.martin.sofu.repositories.UserRepository
 import com.martin.sofu.storage.AppSharedPreferences
-import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val userRepository: UserRepository,
-                                        private val sharedPreferences: AppSharedPreferences): ViewModel() {
+class MainViewModel constructor(
+    private val userRepository: UserRepository,
+    private val sharedPreferences: AppSharedPreferences
+): ViewModel() {
 
     val users: MutableLiveData<ArrayList<User>> = userRepository.users
     var refreshCompleted = MutableLiveData<Boolean>()
